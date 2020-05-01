@@ -13,9 +13,11 @@ sudo apt-mark hold kubelet ;
 # https://github.com/ahmetb/kubectx
 rm -rf ~/.kubectx
 git clone https://github.com/ahmetb/kubectx.git ~/.kubectx
+rm -rf ~/.kubectx/.git
 COMPDIR=$(pkg-config --variable=completionsdir bash-completion)
 sudo ln -sf ~/.kubectx/completion/kubens.bash $COMPDIR/kubens
 sudo ln -sf ~/.kubectx/completion/kubectx.bash $COMPDIR/kubectx
+
 tee -a ~/.bashrc << EOF
 #kubectx and kubens
 export PATH=~/.kubectx:\$PATH
