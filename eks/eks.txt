@@ -1,0 +1,3 @@
+https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html
+https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html
+https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html

@@ -1,0 +1,17 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: aws-auth 
+  namespace: kube-system 
+data: 
+  mapRoles: | 
+    - rolearn: arn:aws:iam::316417136847:role/AmazonServiceRoleForEKS
+      username: system:node:{{EC2PrivateDNSName}} 
+      groups: 
+        - system:bootstrappers 
+        - system:nodes 
+  mapUsers: | 
+    - userarn: arn:aws:iam::316417136847:user/olafrv_cli
+      username: olafrv_cli
+      groups: 
+        - system:masters
