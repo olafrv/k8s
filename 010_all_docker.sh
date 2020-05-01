@@ -20,4 +20,6 @@ sudo add-apt-repository -y \
    stable" ;
 sudo apt-get -y update;
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io;
+
+sudo usermod -aG docker ubuntu
 docker version;

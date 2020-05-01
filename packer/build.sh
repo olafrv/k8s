@@ -7,4 +7,4 @@
 
 export PACKER_VM_NAME=$1
 cd packer-templates/ubuntu/ubuntu-18.04
-packer build -only=vmware-iso --var-file=../../../build.json ubuntu-18.04-minimal.json
+packer build -only=vmware-iso --var-file=../../../build.json ubuntu-18.04-minimal-fixed.json
