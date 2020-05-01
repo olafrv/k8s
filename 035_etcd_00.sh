@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
 
 cat << EOF > /etc/systemd/system/kubelet.service.d/20-etcd-service-manager.conf

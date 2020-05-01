@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# For all k8s nodes: etd, master and workers
+
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
 sudo lsmod | grep br_netfilter

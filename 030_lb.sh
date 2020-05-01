@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Only for the load balancer node for k8s kube and etcd apis
+
 sudo apt -y install balance
 
 sudo tee /root/balance.sh <<END

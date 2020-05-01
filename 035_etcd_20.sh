@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
 # https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/clustering.md
 

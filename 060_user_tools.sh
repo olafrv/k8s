@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 sudo apt-get -y update && sudo apt-get install -y apt-transport-https curl ;
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - ;

@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# For all linux nodes to run container based software
+
 # https://docs.docker.com/engine/install/ubuntu/
 
 sudo apt-get -y remove docker docker-engine docker.io containerd runc ;

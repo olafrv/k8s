@@ -1,0 +1,6 @@
+{
+  "vm_name": "{{env `PACKER_VM_NAME`}}",
+  "num_cpus" : "2",
+  "mem_size" : "1024",
+  "disk_size" : "30720"
+}

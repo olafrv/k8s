@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
 
 docker run --rm -it \

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Node 1
 ssh ke1 -c "sudo -Es kubeadm init phase certs etcd-ca"
 scp ke1:/etc/kubernetes/pki/etcd/ca.crt etc-ca.crt
