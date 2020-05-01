@@ -77,5 +77,10 @@ docker-compose up -d
 
 sudo netstat -tlpn | grep "6443|2379|2380"
 
+sudo tee /etc/rc.local <<EOF
+docker run k8slb
+exit 0
+EOF
+
 # docker logs k8slb
 # docker exec -it k8slb /bin/bash
