@@ -5,8 +5,9 @@
 kubeadm version
 kubeadm config images list --kubernetes-version v1.18.0
 
-# https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/clustering.md
 # https://etcd.io/docs/v3.4.0/dl-build/
+# https://etcd.io/docs/v3.4.0/op-guide/clustering/
+# https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/clustering.md
 
 sudo apt -y install golang
 rm -rf /home/ubuntu/go
