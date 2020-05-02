@@ -28,10 +28,10 @@ etcd:
     local:
         serverCertSANs:
         - "${HOSTNAME}"
-        - "$(LOADBALANCER}"
+        - "${LOADBALANCER}"
         peerCertSANs:
         - "${HOSTNAME}"
-        - "$(LOADBALANCER}"
+        - "${LOADBALANCER}"
         extraArgs:
             initial-cluster: ${INITIAL_CLUSTER}
             initial-cluster-state: new

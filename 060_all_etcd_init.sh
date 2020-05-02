@@ -20,6 +20,7 @@
 
 # External Mode (Simple Linux Service)
 
+sudo systemctl stop kubelet
 sudo systemctl daemon-reload
 sudo systemctl restart etcd
 sudo systemctl status etcd
