@@ -44,6 +44,7 @@ EOF
 
 # http://dockerlabs.collabnix.com/kubernetes/beginners/Install-and-configure-a-multi-master-Kubernetes-cluster-with-kubeadm.html
 # https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/clustering.md
+# https://www.linode.com/docs/quick-answers/linux/start-service-at-boot/
 sudo tee /etc/systemd/system/etcd.service << EOF
 [Unit]
 After=network.target
