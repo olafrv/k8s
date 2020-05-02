@@ -1,21 +1,6 @@
 #!/bin/bash
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
-# https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/clustering.md
-
-
-# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
-#sudo tee /etc/systemd/system/kubelet.service.d/20-etcd-service-manager.conf << EOF
-#[Service]
-#ExecStart=
-#  Replace "systemd" with the cgroup driver of your container runtime. The default value in the kubelet is "cgroupfs".
-# ExecStart=/usr/bin/kubelet --address=127.0.0.1 --pod-manifest-path=/etc/kubernetes/manifests --cgroup-driver=systemd
-#ExecStart=/usr/bin/kubelet --address=127.0.0.1 --pod-manifest-path=/etc/kubernetes/manifests --cgroup-driver=cgroupfs
-#Restart=always
-#EOF
-
-# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
-# bash +4.2
 LOADBALANCER=kload1
 HOSTNAME=$(hostname -f)
 NAME=${HOSTNAME}
@@ -36,8 +21,7 @@ echo "initial_cluster: ${INITIAL_CLUSTER}"
 echo "name: ${NAME}"
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
-# --- This YAML file never tested! ---
-cat << EOF > kubeadmcfg.yaml
+cat << EOF > kubeadmcfg-etcd.yaml
 apiVersion: "kubeadm.k8s.io/v1beta2"
 kind: ClusterConfiguration
 etcd:
@@ -59,6 +43,7 @@ etcd:
 EOF
 
 # http://dockerlabs.collabnix.com/kubernetes/beginners/Install-and-configure-a-multi-master-Kubernetes-cluster-with-kubeadm.html
+# https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/clustering.md
 sudo tee /etc/systemd/system/etcd.service << EOF
 [Unit]
 After=network.target
@@ -76,6 +61,17 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
+sudo chmod 644 /etc/systemd/system/etcd.service
+
+# These systemctl use only if you are debugging!!!
+
+# Stack Mode (etcd as pod managed by kubelet on all nodes)
+
+# sudo systemctl daemon-reload
+# sudo systemctl restart kubelet
+# sudo systemctl status kubelet
+
+# External Mode (Simple Linux Service)
 
 # sudo systemctl daemon-reload
 # sudo systemctl restart etcd

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
+
 # Node 1
 mkdir /tmp/etcd
 ssh ketcd1 "sudo -Es kubeadm init phase certs etcd-ca"
