@@ -31,7 +31,6 @@ tar xvfz k9s_Linux_x86_64.tar.gz k9s
 chmod +x k9s
 sudo mv k9s /usr/local/bin/k9s
 
-
 # https://github.com/ahmetb/kubectl-aliases
 wget https://raw.githubusercontent.com/ahmetb/kubectl-alias/master/.kubectl_aliases -O ~/.kubectl_aliases
 tee -a ~/.bashrc <<EOF
@@ -39,3 +38,14 @@ tee -a ~/.bashrc <<EOF
 # Do not work on ubuntu 16.04!
 # function kubectl() { echo "+ kubectl $@">&2; command kubectl $@; }
 EOF
+
+# https://github.com/kubernetes-sigs/krew
+# https://krew.sigs.k8s.io/docs/user-guide/setup/install/
+(
+  set -x; cd "$(mktemp -d)" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew.{tar.gz,yaml}" &&
+  tar zxvf krew.tar.gz &&
+  KREW=./krew-"$(uname | tr '[:upper:]' '[:lower:]')_amd64" &&
+  "$KREW" install --manifest=krew.yaml --archive=krew.tar.gz &&
+  "$KREW" update
+)
