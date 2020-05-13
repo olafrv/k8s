@@ -49,3 +49,12 @@ EOF
   "$KREW" install --manifest=krew.yaml --archive=krew.tar.gz &&
   "$KREW" update
 )
+
+# https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+# https://stackoverflow.com/questions/50406142/kubectl-bash-completion-doesnt-work-in-ubuntu-docker-container
+cat - >> ~/.bashrc <<END
+source /etc/bash_completion
+source <(kubectl completion bash)
+alias k=kubectl
+complete -F __start_kubectl k
+END
