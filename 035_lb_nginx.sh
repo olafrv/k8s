@@ -1,3 +1,6 @@
+#!/bin/bash
+test -f ~/environment.sh && source ~/environment.sh
+
 mkdir nginx
 cd nginx
 
@@ -39,14 +42,14 @@ stream {
     upstream stream_etcd_2379 {
         hash $remote_addr consistent;
         server ketcd1:2379;
-        server ketcd1:2379;
-        server ketcd1:2379;
+        server ketcd2:2379;
+        server ketcd3:2379;
     }
     upstream stream_etcd_2380 {
         hash $remote_addr consistent;
         server ketcd1:2380;
-        server ketcd1:2380;
-        server ketcd1:2380;
+        server ketcd2:2380;
+        server ketcd3:2380;
     }
 }
 EOF
@@ -67,7 +70,7 @@ services:
       - 6443:6443
     extra_hosts:
 EOF
-cat /etc/hosts | grep 192.168.10 | awk '{print "      - \"" $2 ":" $1 "\""}' | tee -a docker-compose.yaml
+cat /etc/hosts | egrep "kload|ketcd|kmast|kwork" | awk '{print "      - \"" $2 ":" $1 "\""}' | tee -a docker-compose.yaml
 echo | tee -a docker-compose.yaml
 
 docker-compose down

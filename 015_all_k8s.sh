@@ -1,4 +1,5 @@
 #!/bin/bash
+test -f ~/environment.sh && source ~/environment.sh
 
 # For all k8s nodes: etd, master and workers
 

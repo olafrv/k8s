@@ -1,4 +1,5 @@
 #!/bin/bash
+test -f ~/environment.sh && source ~/environment.sh
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
 

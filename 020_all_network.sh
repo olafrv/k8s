@@ -1,4 +1,5 @@
 #!/bin/bash
+test -f ~/environment.sh && source ~/environment.sh
 
 # On each linux node to define local hostsname resolution
 # ssh 192.168.10.128 'bash -s hostname' < hosts.sh

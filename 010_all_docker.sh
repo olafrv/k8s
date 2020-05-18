@@ -1,10 +1,11 @@
 #!/bin/bash
+test -f ~/environment.sh && source ~/environment.sh
 
 # For all linux nodes to run container based software
 
 # https://docs.docker.com/engine/install/ubuntu/
 
-sudo apt-get -y remove docker docker-engine docker.io containerd runc ;
+sudo apt-get -y remove docker docker-engine docker.io containerd runc 2>&1 > /dev/null;
 sudo apt-get -y update ;
 sudo apt-get -y install \
     apt-transport-https \

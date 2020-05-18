@@ -1,3 +1,6 @@
+#!/bin/bash
+test -f ~/environment.sh && source ~/environment.sh
+
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#manual-certs
 
@@ -32,6 +35,9 @@ cgroupDriver: "systemd"
 EOF
 # sudo kubeadm init --config kubeadm-config.yaml --control-plane-endpoint=kload --upload-certs --pod-network-cidr=${PNETWORKCIDR}
 sudo kubeadm init --config kubeadm-config.yaml --upload-certs
+
+# Save the join command for 
+sudo kubeadm token create --print-join-command > /join-command
 
 # [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
 

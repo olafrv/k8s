@@ -1,4 +1,5 @@
 #!/bin/bash
+source environment.sh
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 sudo apt-get -y update && sudo apt-get install -y apt-transport-https curl ;

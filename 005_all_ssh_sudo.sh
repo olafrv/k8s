@@ -1,4 +1,5 @@
 #!/bin/bash
+test -f ~/environment.sh && source ~/environment.sh
 
 # This script should be run with copy and paste!
 exit 0

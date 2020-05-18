@@ -1,0 +1,1 @@
+cat /etc/hosts | egrep "kload|ketcd|kmast|kwork" | awk '{print $2}' | xargs -n1 ssh-keygen -f "/home/ubuntu/.ssh/known_hosts" -R

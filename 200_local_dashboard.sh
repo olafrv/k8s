@@ -1,3 +1,6 @@
+#!/bin/bash
+source environment.sh
+
 # Dashboard - Deployment
 # https://github.com/kubernetes/dashboard
 # https://github.com/kubernetes/dashboard/blob/master/docs/user/accessing-dashboard/1.7.x-and-above.md
