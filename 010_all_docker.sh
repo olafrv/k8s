@@ -22,7 +22,7 @@ sudo add-apt-repository -y \
 sudo apt-get -y update;
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io;
 
-sudo usermod -aG docker ubuntu
+sudo usermod -aG docker $USER
 docker version;
 
 # https://kubernetes.io/docs/setup/production-environment/container-runtimes/

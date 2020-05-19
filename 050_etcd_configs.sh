@@ -5,10 +5,10 @@ test -f ~/environment.sh && source ~/environment.sh
 LOADBALANCER=kload1
 HOSTNAME=$(hostname -f)
 NAME=${HOSTNAME}
-IP=$(hostname -i)
+IP=$(cat /etc/hosts | grep $NAME | grep -v "^127\.0\." | awk '{print $1}' | sed 's/\n//')
 INITIAL_CLUSTER=""
-HOSTS=($(cat /etc/hosts | grep ketcd | awk '{print $1}' | sed 's/\n//' | xargs echo))
-NAMES=($(cat /etc/hosts | grep ketcd | awk '{print $2}' | sed 's/\n//' | xargs echo))
+HOSTS=($(cat /etc/hosts | grep ketcd | grep -v "^127\.0\." | awk '{print $1}' | sed 's/\n//' | xargs echo))
+NAMES=($(cat /etc/hosts | grep ketcd | grep -v "^127\.0\." | awk '{print $2}' | sed 's/\n//' | xargs echo))
 
 for i in "${!HOSTS[@]}"; do
     if [ $i -eq 0 ]
@@ -28,11 +28,42 @@ kind: ClusterConfiguration
 etcd:
     local:
         serverCertSANs:
-        - "${HOSTNAME}"
-        - "${LOADBALANCER}"
+EOF
+
+cat /etc/hosts | egrep "kload|${HOSTNAME}" | grep -v "^127\.0\." | awk '{print $2}' | while read host
+do
+cat << EOF >> kubeadmcfg-etcd.yaml
+        - "${host}"
+EOF
+done
+
+cat /etc/hosts | egrep "kload|${HOSTNAME}" | grep -v "^127\.0\." | awk '{print $1}' | while read ip
+do
+cat << EOF >> kubeadmcfg-etcd.yaml
+        - "${ip}"
+EOF
+done
+
+cat << EOF >> kubeadmcfg-etcd.yaml
         peerCertSANs:
         - "${HOSTNAME}"
-        - "${LOADBALANCER}"
+EOF
+
+cat /etc/hosts | egrep "kload|${HOSTNAME}" | grep -v "^127\.0\." | awk '{print $2}' | while read host
+do
+cat << EOF >> kubeadmcfg-etcd.yaml
+        - "${host}"
+EOF
+done
+
+cat /etc/hosts | egrep "kload|${HOSTNAME}" | grep -v "^127\.0\." | awk '{print $1}' | while read ip
+do
+cat << EOF >> kubeadmcfg-etcd.yaml
+        - "${ip}"
+EOF
+done
+
+cat << EOF >> kubeadmcfg-etcd.yaml
         extraArgs:
             initial-cluster: ${INITIAL_CLUSTER}
             initial-cluster-state: new

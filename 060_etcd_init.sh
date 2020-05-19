@@ -20,6 +20,8 @@ test -f ~/environment.sh && source ~/environment.sh
 
 # External Mode (Simple Linux Service)
 
+sudo rm -rf /var/lib/etcd/*
+
 sudo systemctl disable kubelet
 sudo systemctl stop kubelet
 sudo systemctl daemon-reload

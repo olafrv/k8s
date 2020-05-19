@@ -26,11 +26,6 @@ Vagrant.configure("2") do |c|
         v.cpus = 2
       end
       m.vm.network "private_network", ip: "#{SUBNET}.#{i + 10}"
-      m.vm.provision "file", source: "environment.sh", destination: "~/environment.sh"
-      m.vm.provision "shell", path: "000_all_hosts.sh"
-      m.vm.provision "shell", path: "010_all_docker.sh"
-      m.vm.provision "shell", path: "030_lb_docker_compose.sh"
-      m.vm.provision "shell", path: "035_lb_nginx.sh"
     end
   end
 
@@ -44,11 +39,6 @@ Vagrant.configure("2") do |c|
         v.cpus = 1
       end
       m.vm.network "private_network", ip: "#{SUBNET}.#{i + 20}"
-      m.vm.provision "file", source: "environment.sh", destination: "~/environment.sh"
-      m.vm.provision "shell", path: "000_all_hosts.sh"
-      m.vm.provision "shell", path: "010_all_docker.sh"
-      m.vm.provision "shell", path: "015_all_k8s.sh"
-      m.vm.provision "shell", path: "040_etcd_install.sh"
     end 
   end
 
@@ -62,10 +52,6 @@ Vagrant.configure("2") do |c|
         v.cpus = 2
       end
       m.vm.network "private_network", ip: "#{SUBNET}.#{i + 30}"
-      m.vm.provision "file", source: "environment.sh", destination: "~/environment.sh"
-      m.vm.provision "shell", path: "000_all_hosts.sh"
-      m.vm.provision "shell", path: "010_all_docker.sh"
-      m.vm.provision "shell", path: "015_all_k8s.sh"
     end          
   end
 
@@ -79,10 +65,6 @@ Vagrant.configure("2") do |c|
         v.cpus = 2
       end
       m.vm.network "private_network", ip: "#{SUBNET}.#{i + 40}"
-      m.vm.provision "file", source: "environment.sh", destination: "~/environment.sh"
-      m.vm.provision "shell", path: "000_all_hosts.sh"
-      m.vm.provision "shell", path: "010_all_docker.sh"
-      m.vm.provision "shell", path: "015_all_k8s.sh"
     end
   end
 

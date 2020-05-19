@@ -37,7 +37,13 @@ EOF
 sudo kubeadm init --config kubeadm-config.yaml --upload-certs
 
 # Save the join command for 
-sudo kubeadm token create --print-join-command > /join-command
+sudo kubeadm token create --print-join-command > ~/join-command-for-worker
+
+# Setup kubeconfig for kubectl
+mkdir -p $HOME/.kube
+# sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # [WARNING IsDockerSystemdCheck]: detected "cgroupfs" as the Docker cgroup driver. The recommended driver is "systemd". Please follow the guide at https://kubernetes.io/docs/setup/cri/
 
@@ -55,13 +61,13 @@ kubectl apply -f https://docs.projectcalico.org/v3.11/manifests/calico.yaml
 # kubeadm reset
 
 # Check Nodes/Pods
-watch kubectl get nodes -o wide
-watch kubectl get pods --all-namespaces
-
-# Node Labels (Role)
-kubectl label node k8s-worker1 node-role.kubernetes.io/worker=worker
-kubectl label node k8s-worker2 node-role.kubernetes.io/worker=worker
+# watch kubectl get nodes -o wide
+# watch kubectl get pods --all-namespaces
 
 # Cluster Info
-kubectl cluster-info
-kubectl cluster-info dump
+# kubectl cluster-info
+# kubectl cluster-info dump
+
+# Node Labels (Role)
+# kubectl label node k8s-worker1 node-role.kubernetes.io/worker=worker
+# kubectl label node k8s-worker2 node-role.kubernetes.io/worker=worker
