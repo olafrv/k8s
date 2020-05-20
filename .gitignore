@@ -1,5 +1,5 @@
-packer/packer-templates
 nginx
 secrets
 minikube
+.vagrant
 *.log*
