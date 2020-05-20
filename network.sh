@@ -1,9 +1,4 @@
 #!/bin/bash
-test -f ~/environment.sh && source ~/environment.sh
-
-# On each linux node to define local hostsname resolution
-# ssh 192.168.10.128 'bash -s hostname' < hosts.sh
-
 if [ -z "$1" ]
 then
     echo "Missing hostname!"
@@ -39,5 +34,4 @@ network:
 END
 
 sudo netplan apply
-# sudo reboot
-sudo poweroff
+sudo reboot

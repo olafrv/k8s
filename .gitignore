@@ -2,3 +2,4 @@ packer/packer-templates
 nginx
 secrets
 minikube
+*.log*

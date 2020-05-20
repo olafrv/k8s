@@ -7,7 +7,7 @@ SUBNET = ENV["SUBNET"]
 
 Vagrant.configure("2") do |c|
   
-  print IMAGE_NAME, "\n"
+  # print IMAGE_NAME, "\n"
   c.vm.provision "shell" do |s|
     ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
     s.inline = <<-SHELL
@@ -16,7 +16,7 @@ Vagrant.configure("2") do |c|
     SHELL
   end
 
-  print "LOADBALANCERS: ", LOADBALANCERS, "\n"
+  # print "LOADBALANCERS: ", LOADBALANCERS, "\n"
   (1..LOADBALANCERS).each do |i|
     c.vm.define "kload#{i}" do |m|
       m.vm.box = IMAGE_NAME
@@ -29,7 +29,7 @@ Vagrant.configure("2") do |c|
     end
   end
 
-  print "ETCDS: ", ETCDS, "\n"
+  # print "ETCDS: ", ETCDS, "\n"
   (1..ETCDS).each do |i|
     c.vm.define "ketcd#{i}" do |m|
       m.vm.box = IMAGE_NAME
@@ -42,7 +42,7 @@ Vagrant.configure("2") do |c|
     end 
   end
 
-  print "MASTERS: ", MASTERS, "\n"
+  # print "MASTERS: ", MASTERS, "\n"
   (1..MASTERS).each do |i|
     c.vm.define "kmast#{i}" do |m|
       m.vm.box = IMAGE_NAME
@@ -55,7 +55,7 @@ Vagrant.configure("2") do |c|
     end          
   end
 
-  print "WORKERS: ", WORKERS, "\n"
+  # print "WORKERS: ", WORKERS, "\n"
   (1..WORKERS).each do |i|
     c.vm.define "kwork#{i}" do |m|
       m.vm.box = IMAGE_NAME

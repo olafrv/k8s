@@ -1,7 +1,7 @@
 #!/bin/bash
 test -f ~/environment.sh && source ~/environment.sh
 
-# For all linux nodes to run container based software
+# Install and configure docker
 
 # https://docs.docker.com/engine/install/ubuntu/
 
@@ -27,7 +27,6 @@ docker version;
 
 # https://kubernetes.io/docs/setup/production-environment/container-runtimes/
 
-# Setup daemon.
 sudo tee /etc/docker/daemon.json <<EOF
 {
   "exec-opts": ["native.cgroupdriver=systemd"],
@@ -41,6 +40,5 @@ EOF
 
 sudo mkdir -p /etc/systemd/system/docker.service.d
 
-# Restart docker.
 sudo systemctl daemon-reload
 sudo systemctl restart docker

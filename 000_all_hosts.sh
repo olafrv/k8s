@@ -1,15 +1,15 @@
 #!/bin/bash
 
-if test -f environment.sh
+if test -f ./environment.sh
 then
   # Local
-  source environment.sh
+  source ./environment.sh
 else
   # Remote (SSH or Vagrant)
   source ~/environment.sh
 fi
 
-# Define the common hosts file for all nodes
+# Add k8s servers in /etc/hosts
 
 echo -e "\n#k8s" | sudo tee -a /etc/hosts
 
@@ -30,5 +30,5 @@ done | sudo tee -a /etc/hosts
 
 for i in $(seq -s ' ' 1 $WORKERS)
 do
-  echo "${SUBNET}."$((${i}+30))" kwork${i}"
+  echo "${SUBNET}."$((${i}+40))" kwork${i}"
 done | sudo tee -a /etc/hosts

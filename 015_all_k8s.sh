@@ -1,7 +1,7 @@
 #!/bin/bash
 test -f ~/environment.sh && source ~/environment.sh
 
-# For all k8s nodes: etd, master and workers
+# Install kubernetes components (etcd is installed later)
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
