@@ -3,8 +3,8 @@ test -f ~/environment.sh && source ~/environment.sh
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
 
-kubeadm version
-kubeadm config images list --kubernetes-version v1.18.0
+# kubeadm version
+# kubeadm config images list --kubernetes-version v1.18.0 # See the etcd recommended version (Use it bellow)
 
 # https://etcd.io/docs/v3.4.0/dl-build/
 # https://etcd.io/docs/v3.4.0/op-guide/clustering/

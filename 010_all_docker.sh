@@ -22,6 +22,7 @@ sudo add-apt-repository -y \
 sudo apt-get -y update;
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io;
 
+# USER = Currently logged SSH bash user from env
 sudo usermod -aG docker $USER
 docker version;
 

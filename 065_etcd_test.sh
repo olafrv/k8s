@@ -34,6 +34,7 @@ do
   sudo etcdctl --endpoints=https://${HOST}:2379 endpoint health --cluster $TLS
 done
 
+# You should see something like...
 # https://[HOST0 IP]:2379 is healthy: successfully committed proposal: took = 16.283339ms
 # https://[HOST1 IP]:2379 is healthy: successfully committed proposal: took = 19.44402ms
 # https://[HOST2 IP]:2379 is healthy: successfully committed proposal: took = 35.926451ms

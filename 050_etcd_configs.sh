@@ -2,7 +2,6 @@
 test -f ~/environment.sh && source ~/environment.sh
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
-LOADBALANCER=kload1
 HOSTNAME=$(hostname -f)
 NAME=${HOSTNAME}
 IP=$(cat /etc/hosts | grep $NAME | grep -v "^127\.0\." | awk '{print $1}' | sed 's/\n//')
@@ -96,7 +95,7 @@ WantedBy=multi-user.target
 EOF
 sudo chmod 644 /etc/systemd/system/etcd.service
 
-# These systemctl use only if you are debugging!!!
+# The following systemctl* are used only for debugging!!!
 
 # Stack Mode (etcd as pod managed by kubelet on all nodes)
 
@@ -104,7 +103,7 @@ sudo chmod 644 /etc/systemd/system/etcd.service
 # sudo systemctl restart kubelet
 # sudo systemctl status kubelet
 
-# External Mode (Simple Linux Service)
+# External Mode (Simple Linux Service not tied to kubelet)
 
 # sudo systemctl daemon-reload
 # sudo systemctl restart etcd

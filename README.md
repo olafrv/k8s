@@ -1,5 +1,19 @@
 # k8s
 
+This scripts creates a kubernetes cluster with separated etcd cluster:
+
+```
+-------------------------------------------------------------------------
+Admin Machine                                     | Host
+  |                                               | ---------------------
+kload1  ......... Load Balancer                   | Guests VM (Vagrant)
+  |                                               |
+  |----kwork* ... K8s Workers                     |
+  |----kmast* ... K8s Masters                     |
+  |----ketcd* ... Cluster Key-Value Store (etcd)  |
+-------------------------------------------------------------------------
+```
+
 ## Pre-Requisites
 
 This scripts where tested using the following freaky/nested setup:
@@ -26,6 +40,12 @@ Nodes will be created with the following hostnames according to the numbers defi
 
 You can modify the CPU and RAM values in the *Vagrant* file but the minimums are already set there as described before.
 
+If you use several kload* you should modify the *080_master_init.sh* accordingly before running *setup.sh*. For example, adding more etcd endpoints (e.g. kload2). 
+
+Defining *"controlPlaneEndpoint:"* as *kload* is not possible, even if resolved from *kload1* and *kload2* via DNS, authentication will fail due to certificates not provisioned for *kload* hostname (at least with this scripts).
+
+Pod network CIDR (Subnet) is defined in the *080_master_init.sh*, you can change it to fit your needs.
+
 ## Create Cluster (Vagrant) - RECOMMENDED
 
 Clone the repo and setup the permissions:
@@ -42,15 +62,23 @@ vagrant up
 bash setup.sh
 ```
 
-If everything goes well, in the *./secrets/init.txt* will be the output of kubeadm init command.
+If everything goes well:
 
-Also in the server *kmast1:~/join-command* will the command to join additional worker nodes.
+You can use kubectl from you admin machine.
+```
+kubectl get nodes
+```
 
-You can connected to any nodes using the following commands:
+In the *./secrets/init.txt* will be the output of kubeadm init command.
+
+In the server *kmast1:~/join-command-for-worker* will have the command to join worker nodes.
+
+You can connecte and join your workers nodes using the following commands:
 ```
-vagrant ssh kwork1
-k8s_ssh_c kwork1
+k8s_ssh_c kwork1 # or vagrant ssh kwork1
+# Execute the join-command-for-worker!
 ```
+
 
 ## Create Cluster (Without Vagrant)
 
@@ -73,6 +101,25 @@ EOF
 Change the environment.sh variable K8S_SSH_USER=ubuntu before creating the cluster with *setup.sh*
 
 Finally, configure the network on each server, see the *network.sh*.
+
+# K8s Tools (Admin Machine)
+
+The *setup.sh* already download the kubeconfig, but you can rerun it as needed:
+```
+bash 090_local_download_kube_config.sh
+```
+
+If you want to install the kubernetes dashboard:
+```
+bash 200_local_dashboard.sh   # See more information in this script on how to use it
+```
+
+If you want to install more k8s command lines tools:
+```
+bash 300_local_user_tools.sh  # You can do it manually selection the tools you like
+```
+
+It is highly recommended for GUI to try https://k8slens.dev/ in your admin machine, it can deploy metrics server and prometheus for you.
 
 # References
 
