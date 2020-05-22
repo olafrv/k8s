@@ -55,10 +55,23 @@ cd k8s
 chmod +x *.sh
 ```
 
-Edit *environment.sh* global variables and then run:
+Edit *environment.sh* global variables and create the virtual machines:
 ```
 source environment.sh
 vagrant up
+vagrant snapshot save before-setup
+```
+
+If you need to run again setup, you can revert every virtual machine to their initial state:
+```
+source environment.sh
+vagrant snapshot list
+vagrant snapshot restore <vm> before-setup
+```
+
+Run the kubernetes cluster setup:
+```
+source environment.sh
 bash setup.sh
 ```
 
@@ -73,10 +86,11 @@ In the *./secrets/init.txt* will be the output of kubeadm init command.
 
 In the server *kmast1:~/join-command-for-worker* will have the command to join worker nodes.
 
-You can connecte and join your workers nodes using the following commands:
+You can connect and join your workers nodes using the following commands:
 ```
 k8s_ssh_c kwork1 # or vagrant ssh kwork1
 # Execute the join-command-for-worker!
+kubectl get nodes
 ```
 
 

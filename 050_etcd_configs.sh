@@ -4,10 +4,10 @@ test -f ~/environment.sh && source ~/environment.sh
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
 HOSTNAME=$(hostname -f)
 NAME=${HOSTNAME}
-IP=$(cat /etc/hosts | grep $NAME | grep -v "^127\.0\." | awk '{print $1}' | sed 's/\n//')
+IP=$(cat /etc/hosts | grep $NAME | awk '{print $1}' | sed 's/\n//')
 INITIAL_CLUSTER=""
-HOSTS=($(cat /etc/hosts | grep ketcd | grep -v "^127\.0\." | awk '{print $1}' | sed 's/\n//' | xargs echo))
-NAMES=($(cat /etc/hosts | grep ketcd | grep -v "^127\.0\." | awk '{print $2}' | sed 's/\n//' | xargs echo))
+HOSTS=($(cat /etc/hosts | grep ketcd | awk '{print $1}' | sed 's/\n//' | xargs echo))
+NAMES=($(cat /etc/hosts | grep ketcd | awk '{print $2}' | sed 's/\n//' | xargs echo))
 
 for i in "${!HOSTS[@]}"; do
     if [ $i -eq 0 ]
@@ -29,14 +29,14 @@ etcd:
         serverCertSANs:
 EOF
 
-cat /etc/hosts | egrep "kload|${HOSTNAME}" | grep -v "^127\.0\." | awk '{print $2}' | while read host
+cat /etc/hosts | egrep "kload|${HOSTNAME}" | awk '{print $2}' | while read host
 do
 cat << EOF >> kubeadmcfg-etcd.yaml
         - "${host}"
 EOF
 done
 
-cat /etc/hosts | egrep "kload|${HOSTNAME}" | grep -v "^127\.0\." | awk '{print $1}' | while read ip
+cat /etc/hosts | egrep "kload|${HOSTNAME}" | awk '{print $1}' | while read ip
 do
 cat << EOF >> kubeadmcfg-etcd.yaml
         - "${ip}"
@@ -48,14 +48,14 @@ cat << EOF >> kubeadmcfg-etcd.yaml
         - "${HOSTNAME}"
 EOF
 
-cat /etc/hosts | egrep "kload|${HOSTNAME}" | grep -v "^127\.0\." | awk '{print $2}' | while read host
+cat /etc/hosts | egrep "kload|${HOSTNAME}" | awk '{print $2}' | while read host
 do
 cat << EOF >> kubeadmcfg-etcd.yaml
         - "${host}"
 EOF
 done
 
-cat /etc/hosts | egrep "kload|${HOSTNAME}" | grep -v "^127\.0\." | awk '{print $1}' | while read ip
+cat /etc/hosts | egrep "kload|${HOSTNAME}" | awk '{print $1}' | while read ip
 do
 cat << EOF >> kubeadmcfg-etcd.yaml
         - "${ip}"

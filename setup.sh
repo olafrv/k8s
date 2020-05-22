@@ -23,20 +23,16 @@ do
   k8s_ssh_s $host 035_lb_nginx.sh
 done
 
-cat /etc/hosts | grep ketcd | awk '{print $2}' | while read host
-do
-  k8s_ssh_s $host 040_etcd_install.sh
-done
-
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
 
 # Temporal
 mkdir /tmp/etcd
 
 # ketcd 1 - Generate and download CA that will be used bv etcd
+k8s_ssh_c ketcd1 "sudo rm -rf /etc/kubernetes/pki/etcd/ca.*"
 k8s_ssh_c ketcd1 "sudo -Es kubeadm init phase certs etcd-ca"
 k8s_ssh_c ketcd1 "sudo cp /etc/kubernetes/pki/etcd/ca.* /home/$K8S_SSH_USER/; sudo chown $K8S_SSH_USER /home/$K8S_SSH_USER/ca.*"
-k8s_ssh_c ketcd1 "ls -l /etc/kubernetes/pki/etcd"
+k8s_ssh_c ketcd1 "ls -l /etc/kubernetes/pki/etcd /home/$K8S_SSH_USER/"
 k8s_scp_fd ketcd1 '~/ca.*' '/tmp/etcd/'
 
 # ketcd N+1 - Upload CA that will be used by etcd 
@@ -49,6 +45,7 @@ done
 
 cat /etc/hosts | grep ketcd | awk '{print $2}' | while read host
 do
+  k8s_ssh_s $host 040_etcd_install.sh
   k8s_ssh_s $host 050_etcd_configs.sh
   k8s_ssh_s $host 055_etcd_certs.sh
   k8s_ssh_s $host 060_etcd_init.sh
@@ -62,7 +59,7 @@ done
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/setup-ha-etcd-with-kubeadm/
 
 # ketcd 1 - Download etcd CA and API certs that will be used bv masters
-mkdir /tmp/etcd
+mkdir -p /tmp/etcd
 k8s_ssh_c ketcd1 "sudo cp /etc/kubernetes/pki/etcd/ca.* /home/$K8S_SSH_USER/; sudo chown $K8S_SSH_USER /home/$K8S_SSH_USER/ca.*"
 k8s_ssh_c ketcd1 "sudo cp /etc/kubernetes/pki/apiserver-etcd-client.* /home/$K8S_SSH_USER/; sudo chown $K8S_SSH_USER /home/$K8S_SSH_USER/apiserver-etcd-client.*"
 k8s_scp_fd ketcd1 '~/ca.*' '/tmp/etcd/'
@@ -89,4 +86,4 @@ do
   k8s_ssh_s $host 082_master_kubeconfig.sh
 done
 
-bash 090_local_download_kube_config
+bash 090_local_download_kube_config.sh

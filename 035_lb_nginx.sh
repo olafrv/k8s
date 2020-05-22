@@ -37,7 +37,7 @@ stream {
         hash $remote_addr consistent;
 EOF2
 
-cat /etc/hosts | egrep "kmast" | grep -v "^127\.0\." | awk '{print $2}' | while read host
+cat /etc/hosts | egrep "kmast" | awk '{print $2}' | while read host
 do
 tee -a nginx.conf <<EOF3
         server $host:6443;
@@ -50,7 +50,7 @@ tee -a nginx.conf <<EOF4
         hash $remote_addr consistent;
 EOF4
 
-cat /etc/hosts | egrep "ketcd" | grep -v "^127\.0\." | awk '{print $2}' | while read host
+cat /etc/hosts | egrep "ketcd" | awk '{print $2}' | while read host
 do
 tee -a nginx.conf <<EOF5
         server $host:2379;
@@ -63,7 +63,7 @@ tee -a nginx.conf <<EOF6
         hash $remote_addr consistent;
 EOF6
 
-cat /etc/hosts | egrep "ketcd" | grep -v "^127\.0\." | awk '{print $2}' | while read host
+cat /etc/hosts | egrep "ketcd" | awk '{print $2}' | while read host
 do
 tee -a nginx.conf <<EOF7
         server $host:2380;
