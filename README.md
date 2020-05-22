@@ -28,10 +28,10 @@ But of course, it should work on any Ubuntu Linux 18.04 host with Virtualbox 6.1
 
 Nodes will be created with the following hostnames according to the numbers defined in *environment.sh*:
 ```
-* kload1, ..., 2 <= $LOADBALANCERS <= 9 - 2 vCPU +  512 MB RAM
+* kload1, ..., 1 <= $LOADBALANCERS <= 9 - 2 vCPU +  512 MB RAM
 * ketcd1, ..., 2 <= $ETCDS <= 9         - 2 vCPU +  798 MB RAM
-* kmast1, ..., 2 <= $MASTERS <= 9       - 2 vCPU + 1536 MB RAM
-* kwork1, ..., 2 <= $WORKERS <= 9       - 2 vCPU + 1024 MB RAM
+* kmast1, ..., 1 <= $MASTERS <= 9       - 2 vCPU + 1536 MB RAM
+* kwork1, ..., 1 <= $WORKERS <= 9       - 2 vCPU + 1024 MB RAM
 --------------------------------------------------------------
                                           8 vCPU + 7740 MB RAM
 ```

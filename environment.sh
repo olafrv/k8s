@@ -1,9 +1,9 @@
 #!/bin/bash
 
 export IMAGE_NAME="ubuntu/bionic64"
-export LOADBALANCERS=2
-export MASTERS=2
-export WORKERS=2
+export LOADBALANCERS=1
+export MASTERS=1
+export WORKERS=1
 export ETCDS=2
 export SUBNET="192.168.50" # Kubernetes Pods Subnet (kubeadm init)
 export K8S_SSH_USER=vagrant # Change only if not using vagrant

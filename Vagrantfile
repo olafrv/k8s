@@ -7,7 +7,7 @@ SUBNET = ENV["SUBNET"]
 
 Vagrant.configure("2") do |c|
   
-  # print IMAGE_NAME, "\n"
+  print IMAGE_NAME, "\n"
   c.vm.provision "shell" do |s|
     ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
     s.inline = <<-SHELL
@@ -16,8 +16,9 @@ Vagrant.configure("2") do |c|
     SHELL
   end
 
-  # print "LOADBALANCERS: ", LOADBALANCERS, "\n"
-  (1..LOADBALANCERS).each do |i|
+  print "LOADBALANCERS: ", LOADBALANCERS, "\n"
+  (1..9).each do |i|
+    break if i == LOADBALANCERS+1
     c.vm.define "kload#{i}" do |m|
       m.vm.box = IMAGE_NAME
       m.vm.hostname = "kload#{i}"
@@ -29,8 +30,9 @@ Vagrant.configure("2") do |c|
     end
   end
 
-  # print "ETCDS: ", ETCDS, "\n"
-  (1..ETCDS).each do |i|
+  print "ETCDS: ", ETCDS, "\n"
+  (1..9).each do |i|
+    break if i == ETCDS+1
     c.vm.define "ketcd#{i}" do |m|
       m.vm.box = IMAGE_NAME
       m.vm.hostname = "ketcd#{i}"
@@ -42,21 +44,23 @@ Vagrant.configure("2") do |c|
     end 
   end
 
-  # print "MASTERS: ", MASTERS, "\n"
-  (1..MASTERS).each do |i|
+  print "MASTERS: ", MASTERS, "\n"
+  (1..9).each do |i|
+    break if i == MASTERS+1
     c.vm.define "kmast#{i}" do |m|
       m.vm.box = IMAGE_NAME
       m.vm.hostname = "kmast#{i}"
       m.vm.provider "virtualbox" do |v|
-        v.memory = 1024
+        v.memory = 1536
         v.cpus = 2
       end
       m.vm.network "private_network", ip: "#{SUBNET}.#{i + 30}"
     end          
   end
 
-  # print "WORKERS: ", WORKERS, "\n"
-  (1..WORKERS).each do |i|
+  print "WORKERS: ", WORKERS, "\n"
+  (1..9).each do |i|
+    break if i == WORKERS+1
     c.vm.define "kwork#{i}" do |m|
       m.vm.box = IMAGE_NAME
       m.vm.hostname = "kwork#{i}"
