@@ -1,5 +1,4 @@
 #!/bin/bash
-source environment.sh
 
 # Dashboard - Deployment
 # https://github.com/kubernetes/dashboard

@@ -1,5 +1,4 @@
 #!/bin/bash
-test -f ~/environment.sh && source ~/environment.sh
 
 mkdir nginx
 cd nginx

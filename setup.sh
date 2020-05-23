@@ -1,14 +1,54 @@
 #!/bin/bash
 
-source environment.sh
+export K8S_SETUP=$1
 
-bash 000_all_hosts.sh
+source environment.sh $K8S_SETUP
+
+if [ "$K8S_SETUP" == "vagrant" ]
+then
+  # See: Vagrantfile
+  vagrant up
+  vagrant snaphost --name before-setup
+
+elif [ "$K8S_SETUP" == "multipass" ]
+then
+
+  for i in $(seq -s ' ' 1 $K8S_LOADBALANCERS)
+  do
+    multipass launch -c 2 -m 512M --name kload$i
+  done
+  for i in $(seq -s ' ' 1 $K8S_ETCDS)
+  do
+    multipass launch -c 2 -m 798M --name ketcd$i
+  done
+  for i in $(seq -s ' ' 1 $K8S_MASTERS)
+  do
+    multipass launch -c 2 -m 1536M --name kmast$i
+  done
+  for i in $(seq -s ' ' 1 $K8S_WORKERS)
+  do
+    multipass launch -c 2 -m 1024M --name kwork$i
+  done
+
+else
+
+  echo "Execute: bash setup.sh [vagrant|multipass]"
+  exit 2
+
+fi
+
+bash 000_local_hosts.sh "$K8S_SETUP"
 
 cat /etc/hosts | egrep "k(load|etcd|mast|work)" | awk '{print $2}' | while read host
 do
   ssh-keygen -f ~/.ssh/known_hosts -R $host
-  k8s_scp_fu $host './environment.sh' '~/environment.sh'
-  k8s_ssh_s $host 000_all_hosts.sh
+  if [ "$K8S_SETUP" == "multipass" ]
+  then
+    multipass exec $host -- tee -a ~/.ssh/authorized_keys < ~/.ssh/id_rsa.pub
+  fi
+  # k8s_scp_fu $host './environment.sh' '~/environment.sh'
+  k8s_scp_fu $host './tmp/hosts' '~/hosts'
+  k8s_ssh_s $host 005_all_hosts.sh
   k8s_ssh_s $host 010_all_docker.sh
 done
 
@@ -86,4 +126,18 @@ do
   k8s_ssh_s $host 082_master_kubeconfig.sh
 done
 
-bash 090_local_download_kube_config.sh
+# Join Workers
+k8s_scp_fd kmast1 '~/join-command-for-worker' tmp/join-command-for-worker
+sed -i -e 's/^/sudo /' tmp/join-command-for-worker
+cat /etc/hosts | grep kwork | awk '{print $2}' | while read host
+do
+  k8s_ssh_s $host tmp/join-command-for-worker
+done
+
+# Create local kubeconfig for kubectl
+mkdir -p $HOME/.kube
+cp $HOME/.kube/config $HOME/.kube/config.backup.$(date +%Y-%m-%d.%H:%M:%S)
+k8s_scp_fd kmast1 '~/.kube/config' $HOME/.kube/config-k8s
+KUBECONFIG=$HOME/.kube/config:$HOME/.kube/config-k8s \
+  kubectl config view --merge --flatten > \
+  ~/.kube/config

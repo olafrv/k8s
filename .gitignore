@@ -3,3 +3,4 @@ secrets
 minikube
 .vagrant
 *.log*
+tmp

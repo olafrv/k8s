@@ -22,9 +22,9 @@ This scripts where tested using the following freaky/nested setup:
   - VMWare Workstation 15 
     - Ubuntu Linux 18.04 (4 vCPU 16 GB RAM)
       - Virtualbox 6.1 w/Oracle Extension Pack
-        - Ubuntu Linux 18.04 (K8s servers / Vagrant)
+        - Ubuntu Linux 18.04 (K8s servers => Vagrant or Multipass)
 
-But of course, it should work on any Ubuntu Linux 18.04 host with Virtualbox 6.1.
+But of course, it should work on any Ubuntu Linux 18.04 host with Virtualbox 6.1 + Vagrant or Multipass.
 
 Nodes will be created with the following hostnames according to the numbers defined in *environment.sh*:
 ```
@@ -46,7 +46,9 @@ Defining *"controlPlaneEndpoint:"* as *kload* is not possible, even if resolved 
 
 Pod network CIDR (Subnet) is defined in the *080_master_init.sh*, you can change it to fit your needs.
 
-## Create Cluster (Vagrant) - RECOMMENDED
+## Create Cluster
+
+### Prepare Scripts
 
 Clone the repo and setup the permissions:
 ```
@@ -55,25 +57,29 @@ cd k8s
 chmod +x *.sh
 ```
 
-Edit *environment.sh* global variables and create the virtual machines:
+Edit *environment.sh* global variables.
 ```
 source environment.sh
-vagrant up
-vagrant snapshot save before-setup
+```
+
+### Setup Virtual Machines (Multipass) - RECOMMENDED (LIGHTER)
+```
+./setup.sh multipass
+```
+
+### Setup Virtual Machines (Vagrant) - ALTERNATIVE (HEAVIER)
+
+```
+./setup.sh vagrant
 ```
 
 If you need to run again setup, you can revert every virtual machine to their initial state:
 ```
-source environment.sh
 vagrant snapshot list
 vagrant snapshot restore <vm> before-setup
 ```
 
-Run the kubernetes cluster setup:
-```
-source environment.sh
-bash setup.sh
-```
+### Output
 
 If everything goes well:
 
@@ -83,38 +89,7 @@ kubectl get nodes
 ```
 
 In the *./secrets/init.txt* will be the output of kubeadm init command.
-
 In the server *kmast1:~/join-command-for-worker* will have the command to join worker nodes.
-
-You can connect and join your workers nodes using the following commands:
-```
-k8s_ssh_c kwork1 # or vagrant ssh kwork1
-# Execute the join-command-for-worker!
-kubectl get nodes
-```
-
-
-## Create Cluster (Without Vagrant)
-
-If you are not using vagrant, you must use the same hostnames listed in the pre-requisites.
-
-You must allow ssh and sudo to the servers from you host (admin) machine:
-```
-# For each linux node or the one used as base image
-
-# Ensure you can ssh into every node from your admin machine!
-ssh-copy-id ubuntu@server
-
-# Ensure other scripts are be able to run sudo without password!
-# After SSH into ubuntu@server run the following command:
-sudo tee -a /etc/sudoers.d/k8s <EOF
-ubuntu  ALL=(ALL:ALL) NOPASSWD:ALL
-EOF
-```
-
-Change the environment.sh variable K8S_SSH_USER=ubuntu before creating the cluster with *setup.sh*
-
-Finally, configure the network on each server, see the *network.sh*.
 
 # K8s Tools (Admin Machine)
 

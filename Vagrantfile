@@ -1,13 +1,17 @@
-IMAGE_NAME = ENV["IMAGE_NAME"]
-LOADBALANCERS = ENV["LOADBALANCERS"].to_i
-MASTERS = ENV["MASTERS"].to_i
-WORKERS = ENV["WORKERS"].to_i
-ETCDS = ENV["ETCDS"].to_i
-SUBNET = ENV["SUBNET"]
+K8S_IMAGE_NAME = ENV["K8S_IMAGE_NAME"]
+K8S_LOADBALANCERS = ENV["K8S_LOADBALANCERS"].to_i
+K8S_MASTERS = ENV["K8S_MASTERS"].to_i
+K8S_WORKERS = ENV["K8S_WORKERS"].to_i
+K8S_ETCDS = ENV["K8S_ETCDS"].to_i
+K8S_SUBNET = ENV["K8S_SUBNET"]
+
+if K8S_LOADBALANCERS.to_i == 0
+  print "First, source environment.sh" "\n"
+  exit 2
+end
 
 Vagrant.configure("2") do |c|
   
-  print IMAGE_NAME, "\n"
   c.vm.provision "shell" do |s|
     ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
     s.inline = <<-SHELL
@@ -16,59 +20,55 @@ Vagrant.configure("2") do |c|
     SHELL
   end
 
-  print "LOADBALANCERS: ", LOADBALANCERS, "\n"
   (1..9).each do |i|
-    break if i == LOADBALANCERS+1
+    break if i == K8S_LOADBALANCERS+1
     c.vm.define "kload#{i}" do |m|
-      m.vm.box = IMAGE_NAME
+      m.vm.box = K8S_IMAGE_NAME
       m.vm.hostname = "kload#{i}"
       m.vm.provider "virtualbox" do |v|
         v.memory = 512
         v.cpus = 2
       end
-      m.vm.network "private_network", ip: "#{SUBNET}.#{i + 10}"
+      m.vm.network "private_network", ip: "#{K8S_SUBNET}.#{i + 10}"
     end
   end
 
-  print "ETCDS: ", ETCDS, "\n"
   (1..9).each do |i|
-    break if i == ETCDS+1
+    break if i == K8S_ETCDS+1
     c.vm.define "ketcd#{i}" do |m|
-      m.vm.box = IMAGE_NAME
+      m.vm.box = K8S_IMAGE_NAME
       m.vm.hostname = "ketcd#{i}"
       m.vm.provider "virtualbox" do |v|
         v.memory = 798
-        v.cpus = 1
+        v.cpus = 2
       end
-      m.vm.network "private_network", ip: "#{SUBNET}.#{i + 20}"
+      m.vm.network "private_network", ip: "#{K8S_SUBNET}.#{i + 20}"
     end 
   end
 
-  print "MASTERS: ", MASTERS, "\n"
   (1..9).each do |i|
-    break if i == MASTERS+1
+    break if i == K8S_MASTERS+1
     c.vm.define "kmast#{i}" do |m|
-      m.vm.box = IMAGE_NAME
+      m.vm.box = K8S_IMAGE_NAME
       m.vm.hostname = "kmast#{i}"
       m.vm.provider "virtualbox" do |v|
         v.memory = 1536
         v.cpus = 2
       end
-      m.vm.network "private_network", ip: "#{SUBNET}.#{i + 30}"
+      m.vm.network "private_network", ip: "#{K8S_SUBNET}.#{i + 30}"
     end          
   end
 
-  print "WORKERS: ", WORKERS, "\n"
   (1..9).each do |i|
-    break if i == WORKERS+1
+    break if i == K8S_WORKERS+1
     c.vm.define "kwork#{i}" do |m|
-      m.vm.box = IMAGE_NAME
+      m.vm.box = K8S_IMAGE_NAME
       m.vm.hostname = "kwork#{i}"
       m.vm.provider "virtualbox" do |v|
         v.memory = 1024
         v.cpus = 2
       end
-      m.vm.network "private_network", ip: "#{SUBNET}.#{i + 40}"
+      m.vm.network "private_network", ip: "#{K8S_SUBNET}.#{i + 40}"
     end
   end
 

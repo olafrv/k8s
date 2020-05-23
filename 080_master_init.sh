@@ -1,5 +1,4 @@
 #!/bin/bash
-test -f ~/environment.sh && source ~/environment.sh
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#manual-certs

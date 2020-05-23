@@ -1,12 +1,22 @@
 #!/bin/bash
 
-export IMAGE_NAME="ubuntu/bionic64"
-export LOADBALANCERS=1
-export MASTERS=1
-export WORKERS=1
-export ETCDS=2
-export SUBNET="192.168.50" # Kubernetes Pods Subnet (kubeadm init)
-export K8S_SSH_USER=vagrant # Change only if not using vagrant
+export K8S_LOADBALANCERS=1
+export K8S_MASTERS=1
+export K8S_WORKERS=1
+export K8S_ETCDS=2
+export K8S_SETUP=$1
+
+if [ "$K8S_SETUP" == "vagrant" ]
+then
+  export K8S_SSH_USER=vagrant
+  export K8S_IMAGE_NAME="ubuntu/bionic64" # Only used by vagrant not by multipass!
+  export K8S_SUBNET="192.168.50"          # Only used by vagrant not by multipass!
+elif [ "$K8S_SETUP" == "multipass" ]
+then
+  export K8S_SSH_USER=ubuntu
+else
+  echo "Execute: source environment.sh [vagrant|multipass]"
+fi
 
 function k8s_ssh_c
 {

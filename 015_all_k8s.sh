@@ -1,5 +1,4 @@
 #!/bin/bash
-test -f ~/environment.sh && source ~/environment.sh
 
 # Install kubernetes components (etcd is installed later)
 

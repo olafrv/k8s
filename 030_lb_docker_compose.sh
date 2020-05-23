@@ -1,5 +1,4 @@
 #!/bin/bash
-test -f ~/environment.sh && source ~/environment.sh
 
 # This is needed to run nginx TCP in the load balancer servers
 
