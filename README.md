@@ -5,7 +5,7 @@ This scripts creates a kubernetes cluster with separated etcd cluster:
 ```
 -------------------------------------------------------------------------
 Admin Machine                                     | Host
-  |                                               | ---------------------
+--|-----------------------------------------------| ---------------------
 kload1  ......... Load Balancer                   | Guests VM (Vagrant)
   |                                               |
   |----kwork* ... K8s Workers                     |
@@ -89,6 +89,7 @@ kubectl get nodes
 ```
 
 In the *./secrets/init.txt* will be the output of kubeadm init command.
+
 In the server *kmast1:~/join-command-for-worker* will have the command to join worker nodes.
 
 # K8s Tools (Admin Machine)
