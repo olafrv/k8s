@@ -27,6 +27,7 @@ This scripts where tested using the following freaky/nested setup:
 But of course, it should work on any Ubuntu Linux 18.04 host with Virtualbox 6.1 + Vagrant or just Multipass.
 
 For installing VirtualBox see: https://www.virtualbox.org/wiki/Downloads
+
 For installing Multipass see: https://multipass.run/
 
 Nodes will be created with the following hostnames according to the numbers defined in *environment.sh*:
