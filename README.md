@@ -56,7 +56,7 @@ Pod network CIDR (Subnet) is defined in the *080_master_init.sh*, you can change
 
 Clone the repo and setup the permissions:
 ```
-git@github.com:olafrv/k8s.git
+git clone git@github.com:olafrv/k8s.git
 cd k8s
 chmod +x *.sh
 ```
