@@ -19,16 +19,17 @@ This scripts creates a kubernetes cluster with separated etcd cluster:
 This scripts where tested using the following freaky/nested setup:
 
 - HP Pavilion Gaming Laptop (i9300H 32 GB RAM Windows 10)
-  - VMWare Workstation 15 
+  - VMWare Workstation 15 (Enable Intel VT-x/EPT or AMD-V/RVI,  CPU Perf. Counters, IOMMU)
     - Ubuntu Linux 18.04 (4 vCPU 16 GB RAM)
-      - Virtualbox 6.1 w/Oracle Extension Pack + Vagrant or Multipass
-        - Ubuntu Linux 18.04 (K8s servers)
+      - Virtualbox 6.1 w/Oracle Extension Pack + Vagrant or just only Multipass
+        - Ubuntu Linux 18.04 (Virtual Machines for Kuberentes Cluster)
 
-But of course, it should work on any Ubuntu Linux 18.04 host with Virtualbox 6.1 + Vagrant or just Multipass.
+But of course, it should work on any Ubuntu Linux with the following packages installed:
 
-For installing VirtualBox see: https://www.virtualbox.org/wiki/Downloads
+* **OPTION #1**: [VirtualBox](https://www.virtualbox.org/wiki/Downloads) + [Vagrant](https://www.vagrantup.com/downloads.html)
+* **OPTION #2**: [Multipass](https://multipass.run/)
 
-For installing Multipass see: https://multipass.run/
+### Virtual Machine Layout
 
 Nodes will be created with the following hostnames according to the numbers defined in *environment.sh*:
 ```
@@ -44,9 +45,11 @@ Nodes will be created with the following hostnames according to the numbers defi
 ---------------------------------------------------------
 ```
 
+### Additional Notes
+
 **Maximum 9 servers are meant to be created per type**, if more needed you need to modify networks in *000_all_hosts.sh*.
 
-You can modify the CPU and RAM values in the *Vagrant* file but the minimums are already set there as described before.
+You can modify the CPU and RAM values in *Vagrantfile* and *setup.sh* (multipass) file but the minimums are already set there as described before.
 
 If you use several kload* you should modify the *080_master_init.sh* accordingly before running *setup.sh*. For example, adding more etcd endpoints (e.g. kload2). 
 
