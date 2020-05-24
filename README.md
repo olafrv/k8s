@@ -21,10 +21,13 @@ This scripts where tested using the following freaky/nested setup:
 - HP Pavilion Gaming Laptop (i9300H 32 GB RAM Windows 10)
   - VMWare Workstation 15 
     - Ubuntu Linux 18.04 (4 vCPU 16 GB RAM)
-      - Virtualbox 6.1 w/Oracle Extension Pack
-        - Ubuntu Linux 18.04 (K8s servers => Vagrant or Multipass)
+      - Virtualbox 6.1 w/Oracle Extension Pack + Vagrant or Multipass
+        - Ubuntu Linux 18.04 (K8s servers)
 
-But of course, it should work on any Ubuntu Linux 18.04 host with Virtualbox 6.1 + Vagrant or Multipass.
+But of course, it should work on any Ubuntu Linux 18.04 host with Virtualbox 6.1 + Vagrant or just Multipass.
+
+For installing VirtualBox see: https://www.virtualbox.org/wiki/Downloads
+For installing Multipass see: https://multipass.run/
 
 Nodes will be created with the following hostnames according to the numbers defined in *environment.sh*:
 ```
