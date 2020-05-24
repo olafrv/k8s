@@ -3,15 +3,15 @@
 This scripts creates a kubernetes cluster with separated etcd cluster:
 
 ```
--------------------------------------------------------------------------
-Admin Machine                                     | Host
---|-----------------------------------------------| ---------------------
-kload1  ......... Load Balancer                   | Guests VM (Vagrant)
-  |                                               |
-  |----kwork* ... K8s Workers                     |
-  |----kmast* ... K8s Masters                     |
-  |----ketcd* ... Cluster Key-Value Store (etcd)  |
--------------------------------------------------------------------------
+------------------------------------------------------------------
+ Admin Machine                                     | Host
+---|-----------------------------------------------| -------------
+ kload1  ......... Load Balancer                   | Guests VM 
+   |                                               | - Vagrant
+   |----kwork* ... K8s Workers                     | - Multipass
+   |----kmast* ... K8s Masters                     |
+   |----ketcd* ... Cluster Key-Value Store (etcd)  |
+------------------------------------------------------------------
 ```
 
 ## Pre-Requisites
@@ -28,12 +28,16 @@ But of course, it should work on any Ubuntu Linux 18.04 host with Virtualbox 6.1
 
 Nodes will be created with the following hostnames according to the numbers defined in *environment.sh*:
 ```
-* kload1, ..., 1 <= $LOADBALANCERS <= 9 - 2 vCPU +  512 MB RAM
-* ketcd1, ..., 2 <= $ETCDS <= 9         - 2 vCPU +  798 MB RAM
-* kmast1, ..., 1 <= $MASTERS <= 9       - 2 vCPU + 1536 MB RAM
-* kwork1, ..., 1 <= $WORKERS <= 9       - 2 vCPU + 1024 MB RAM
---------------------------------------------------------------
-                                          8 vCPU + 7740 MB RAM
+---------------------------------------------------------
+ Name   | Quantity                | Capacity             
+---------------------------------------------------------
+ kload* | 1 <= LOADBALANCERS <= 9 | 2 vCPU +  512 MB RAM
+ ketcd* | 2 <= ETCDS <= 9         | 2 vCPU +  798 MB RAM
+ kmast* | 1 <= MASTERS <= 9       | 2 vCPU + 1536 MB RAM
+ kwork* | 1 <= WORKERS <= 9       | 2 vCPU + 1024 MB RAM
+---------------------------------------------------------
+                                  | 8 vCPU + 7740 MB RAM
+---------------------------------------------------------
 ```
 
 **Maximum 9 servers are meant to be created per type**, if more needed you need to modify networks in *000_all_hosts.sh*.
