@@ -1,5 +1,7 @@
 # k8s
 
+> ⚠️⚠️⚠️ This k8s the hard way is very good for learning, but a simple approach is https://microk8s.io/ and https://minikube.sigs.k8s.io/ .
+
 This scripts creates a kubernetes cluster with separated etcd cluster:
 
 ```
